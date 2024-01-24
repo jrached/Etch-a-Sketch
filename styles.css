@@ -1,0 +1,12 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid blue;
+}
+
+.board {
+    border: 2px solid red;
+    width: 500px; 
+    height: 500px;
+}
