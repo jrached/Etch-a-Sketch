@@ -4,7 +4,7 @@ const makeGrid = (numBox) => {
 
     let board = document.querySelector(".board");
     let styles = window.getComputedStyle(board);
-    console.log(styles.height)
+    console.log(styles.height);
 
     let border = 1;
 
