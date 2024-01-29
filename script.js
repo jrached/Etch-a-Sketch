@@ -29,9 +29,10 @@ const makeGrid = (numBox) => {
             boxHeight = +height / numBox - 2 * border;
 
             let box = document.createElement("div");
-            box.style.border = "" + border + "px solid purple";
+            box.style.border = "" + border + "px solid rgb(92, 92, 92)";
             box.style.height = "" + boxWidth + "px";
             box.style.width = "" + boxHeight + "px";
+            box.style["border-radius"] = "15%";
 
             row.appendChild(box);
 
