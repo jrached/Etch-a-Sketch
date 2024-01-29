@@ -1,3 +1,5 @@
+/* I think if you give the two panels a minimum width it will wrap fine. */
+
 html {
     scroll-behavior: smooth;
 }
@@ -6,6 +8,12 @@ html {
 .header {
     height: 175px;
     border: 2px solid orange;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    font-weight: 900;
 
 }
 
@@ -17,35 +25,114 @@ html {
     border: 2px solid orange;
 }
 
+/* Left */
 .menu {
     display: flex;
-    width: 30%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
     border: 2px solid red;
 }
 
+.slide {
+    border: 2px solid blue;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sizeSelector {
+    height: 20%;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+    height: 50%;
+    text-align: center;
+    border: 2px solid blue;
+}
+
+.option1, .option2, .option3, .option4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15%;
+    width: 70%;
+    border: 2px solid red;
+    border-radius: 5px;
+}
+
+/* Right */
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70%;
+    width: 75%;
     border: 2px solid red;
 }
 
 .frame {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     border: 2px solid blue;
     width: 90%;
-    height: 90%;
+    max-width: 650px;
+    height: 550px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 10%;
 }
 
 .board {
     border: 2px solid red;
-    width: 300px; 
-    height: 300px;
+    width: 450px; 
+    height: 450px;
+}
+
+.btns {
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid red;
+    width: 100%;
+    max-width: 520px;
+    height: 15%;
+}
+
+.box1, .box2 {
+    display: flex;
+    width: 200px;
+    height: 100%;
+    border: 2px solid blue;
+    gap: 20px;
+    font-size: 22px;
+}
+
+.box2 {
+    justify-content: flex-end;
+}
+
+.box1 .btn, .box2 .btn {
+    height: 80px; 
+    width: 80px;
+    border-radius: 50%;
+    border: 2px solid orange;
+}
+
+.box1 .text, .box2 .text {
+    display: flex;
     justify-content: center;
     align-items: center;
+    border: 2px solid orange;
 }
 
 
@@ -55,3 +142,79 @@ html {
     height: 100px;
     border: 2px solid orange;
 }
+
+
+/* /////////////////////// Shrunk Window ///////////////////////// */
+
+/* @media: Whenever the page gets loaded (not resized) while sized
+at a window width less than or equal to 650px, it will rewrite
+the styles of the elements inside to the new specifications. */
+@media (max-width: 650px) {
+
+    .header {
+        font-size: 45px;
+    }
+
+    .content {
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .menu {
+        width: 100%;
+        height: 300px;
+    }
+
+    .options {
+        height: 80%;
+    }
+
+    .option1, .option2, .option3, .option4 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 20%;
+        width: 70%;
+        border: 2px solid red;
+    }
+
+    .board {
+        width: 250px;
+        height: 250px;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .frame {
+        width: 300px;
+        height: 300px;
+        padding-top: 5px;
+        padding-bottom: 10px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .btns {
+        height: 15%;
+        width: 280px;
+    }
+
+    .box1, .box2 {
+        width: 130px;
+        gap: 10px;
+    }
+
+    .box1 .btn, .box2 .btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+    }
+
+    .box1 .text, .box2 .text {
+        font-size: 16px;
+    }
+}
+
