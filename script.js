@@ -1,8 +1,10 @@
 let gridSize = 16;
+let gridColor = "rgb(245, 244, 244)";
 let paintColor = "rgb(60, 60, 60)";
-let backColor = "rgb(217, 234, 241)";
+let backColor = "rgb(233, 241, 245)";
 let btnColor = "rgb(136, 93, 9)";
 let slider = document.querySelector(".sizeSelector");
+let colors = [];
 
 // /////////////////////////// Functions ////////////////////////////
 
@@ -11,6 +13,17 @@ const makeGrid = (numBox) => {
 
     let board = document.querySelector(".board");
     let styles = window.getComputedStyle(board);
+
+    // Color matrix preserves colors when grid is
+    // destroyed and rebuilt after window resize.
+    if (colors.length == 0) {
+        for (let i = 0; i < numBox; i++) {
+            colors[i] = [];
+            for (let j = 0; j < numBox; j++) {
+                colors[i][j] = gridColor;
+            }
+        }
+    }
 
     let border = 1;
 
@@ -33,13 +46,19 @@ const makeGrid = (numBox) => {
             boxHeight = +height / numBox - 2 * border;
 
             let box = document.createElement("div");
+
+            box.id = "" + i + " " + j;
             box.style.border = "" + border + "px solid rgb(92, 92, 92)";
             box.style.height = "" + boxWidth + "px";
             box.style.width = "" + boxHeight + "px";
             box.style["border-radius"] = "15%";
+            box.style["background-color"] = colors[i][j];
 
+            // Update current color and color array.
             box.addEventListener("mouseenter", () => {
+                let [i, j] = box.id.split(" ");
                 box.style["background-color"] = paintColor;
+                colors[i][j] = paintColor;
             })
 
             row.appendChild(box);
@@ -50,6 +69,7 @@ const makeGrid = (numBox) => {
     }
 
 }
+
 
 // Update board size
 const updateBoardSize = () => {
@@ -72,7 +92,8 @@ const updateBoardSize = () => {
 }
 
 
-// ////////////////////////// Main /////////////////////////////////
+// ////////////////////////// Event Listeners /////////////////////////////////
+
 // Make initial grid.
 document.addEventListener("DOMContentLoaded", function () {
     makeGrid(gridSize);
@@ -85,6 +106,7 @@ window.addEventListener("resize", () => {
     makeGrid(gridSize);
 });
 
+// Slider listeners
 slider.addEventListener("input", function () {
     let sizeDisplay = document.querySelector(".size");
 
@@ -93,11 +115,19 @@ slider.addEventListener("input", function () {
 
 slider.addEventListener("input", function () {
     gridSize = this.value;
+
+    // reset colors array to new size.
+    for (let i = 0; i < gridSize; i++) {
+        colors[i] = [];
+        for (let j = 0; j < gridSize; j++) {
+            colors[i][j] = gridColor;
+        }
+    }
+
     makeGrid(gridSize);
 })
 
 // Buttons event listeners
-
 let btn1 = document.querySelector(".option1"),
     btn2 = document.querySelector(".option2"),
     btn3 = document.querySelector(".option3"),
@@ -109,9 +139,6 @@ btn1.addEventListener("click", () => {
 
     btn2.style.color = btnColor;
     btn2.style["background-color"] = backColor;
-
-    btn3.style.color = btnColor;
-    btn3.style["background-color"] = backColor;
 
     btn4.style.color = btnColor;
     btn4.style["background-color"] = backColor;
@@ -126,9 +153,6 @@ btn2.addEventListener("click", () => {
     btn1.style.color = btnColor;
     btn1.style["background-color"] = backColor;
 
-    btn3.style.color = btnColor;
-    btn3.style["background-color"] = backColor;
-
     btn4.style.color = btnColor;
     btn4.style["background-color"] = backColor;
 
@@ -136,6 +160,7 @@ btn2.addEventListener("click", () => {
 })
 
 btn3.addEventListener("click", () => {
+    colors = [];
     makeGrid(gridSize);
 })
 
@@ -145,9 +170,6 @@ btn4.addEventListener("click", () => {
 
     btn2.style.color = btnColor;
     btn2.style["background-color"] = backColor;
-
-    btn3.style.color = btnColor;
-    btn3.style["background-color"] = backColor;
 
     btn1.style.color = btnColor;
     btn1.style["background-color"] = backColor;
