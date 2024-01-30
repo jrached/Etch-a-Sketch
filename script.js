@@ -144,9 +144,6 @@ btn1.addEventListener("click", () => {
     btn2.style.color = btnColor;
     btn2.style["background-color"] = backColor;
 
-    btn4.style.color = btnColor;
-    btn4.style["background-color"] = backColor;
-
     paintColor = "rgb(60, 60, 60)";
 })
 
@@ -156,9 +153,6 @@ btn2.addEventListener("click", () => {
 
     btn1.style.color = btnColor;
     btn1.style["background-color"] = backColor;
-
-    btn4.style.color = btnColor;
-    btn4.style["background-color"] = backColor;
 
     paintColor = "rgb(245, 244, 244)";
 })
