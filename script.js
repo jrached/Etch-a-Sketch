@@ -5,11 +5,12 @@ let backColor = "rgb(233, 241, 245)";
 let btnColor = "rgb(136, 93, 9)";
 let slider = document.querySelector(".sizeSelector");
 let colors = [];
+let toggleGrid = true;
 
 // /////////////////////////// Functions ////////////////////////////
 
 // Make grid
-const makeGrid = (numBox) => {
+const makeGrid = (numBox, toggle) => {
 
     let board = document.querySelector(".board");
     let styles = window.getComputedStyle(board);
@@ -42,16 +43,20 @@ const makeGrid = (numBox) => {
             height = styles.height;
             height = height.slice(0,3);
 
-            boxWidth = +width / numBox - 2 * border;
-            boxHeight = +height / numBox - 2 * border;
+            boxWidth = +width / numBox;
+            boxHeight = +height / numBox;
 
             let box = document.createElement("div");
 
             box.id = "" + i + " " + j;
-            box.style.border = "" + border + "px solid rgb(92, 92, 92)";
+            if (toggle == true) {
+                boxWidth = boxWidth- 2 * border;
+                boxHeight = boxHeight - 2 * border;
+                box.style.border = "" + border + "px solid rgb(92, 92, 92)";
+                box.style["border-radius"] = "15%";
+            }
             box.style.height = "" + boxWidth + "px";
             box.style.width = "" + boxHeight + "px";
-            box.style["border-radius"] = "15%";
             box.style["background-color"] = colors[i][j];
 
             // Update current color and color array.
@@ -94,16 +99,15 @@ const updateBoardSize = () => {
 
 // ////////////////////////// Event Listeners /////////////////////////////////
 
-// Make initial grid.
+// DOM's loaded listener.
 document.addEventListener("DOMContentLoaded", function () {
-    makeGrid(gridSize);
+    makeGrid(gridSize, toggleGrid);
 });
 
-// Resize the board and the grids when the window gets resized
-// to less than or equal to 650px width.
+// Resize listeners
 window.addEventListener("resize", updateBoardSize);
 window.addEventListener("resize", () => {
-    makeGrid(gridSize);
+    makeGrid(gridSize, toggleGrid);
 });
 
 // Slider listeners
@@ -124,7 +128,7 @@ slider.addEventListener("input", function () {
         }
     }
 
-    makeGrid(gridSize);
+    makeGrid(gridSize, toggleGrid);
 })
 
 // Buttons event listeners
@@ -161,17 +165,11 @@ btn2.addEventListener("click", () => {
 
 btn3.addEventListener("click", () => {
     colors = [];
-    makeGrid(gridSize);
+    makeGrid(gridSize, toggleGrid);
 })
 
 btn4.addEventListener("click", () => {
-    btn4.style.color = backColor;
-    btn4.style["background-color"] = btnColor;
-
-    btn2.style.color = btnColor;
-    btn2.style["background-color"] = backColor;
-
-    btn1.style.color = btnColor;
-    btn1.style["background-color"] = backColor;
+    toggleGrid = !toggleGrid;
+    makeGrid(gridSize, toggleGrid);
 })
 
