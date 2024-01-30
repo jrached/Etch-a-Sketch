@@ -1,4 +1,8 @@
 let gridSize = 16;
+let paintColor = "rgb(60, 60, 60)";
+let backColor = "rgb(217, 234, 241)";
+let btnColor = "rgb(136, 93, 9)";
+let slider = document.querySelector(".sizeSelector");
 
 // /////////////////////////// Functions ////////////////////////////
 
@@ -33,6 +37,10 @@ const makeGrid = (numBox) => {
             box.style.height = "" + boxWidth + "px";
             box.style.width = "" + boxHeight + "px";
             box.style["border-radius"] = "15%";
+
+            box.addEventListener("mouseenter", () => {
+                box.style["background-color"] = paintColor;
+            })
 
             row.appendChild(box);
 
@@ -77,8 +85,6 @@ window.addEventListener("resize", () => {
     makeGrid(gridSize);
 });
 
-let slider = document.querySelector(".sizeSelector");
-
 slider.addEventListener("input", function () {
     let sizeDisplay = document.querySelector(".size");
 
@@ -89,3 +95,61 @@ slider.addEventListener("input", function () {
     gridSize = this.value;
     makeGrid(gridSize);
 })
+
+// Buttons event listeners
+
+let btn1 = document.querySelector(".option1"),
+    btn2 = document.querySelector(".option2"),
+    btn3 = document.querySelector(".option3"),
+    btn4 = document.querySelector(".option4");
+
+btn1.addEventListener("click", () => {
+    btn1.style.color = backColor;
+    btn1.style["background-color"] = btnColor;
+
+    btn2.style.color = btnColor;
+    btn2.style["background-color"] = backColor;
+
+    btn3.style.color = btnColor;
+    btn3.style["background-color"] = backColor;
+
+    btn4.style.color = btnColor;
+    btn4.style["background-color"] = backColor;
+
+    paintColor = "rgb(60, 60, 60)";
+})
+
+btn2.addEventListener("click", () => {
+    btn2.style.color = backColor;
+    btn2.style["background-color"] = btnColor;
+
+    btn1.style.color = btnColor;
+    btn1.style["background-color"] = backColor;
+
+    btn3.style.color = btnColor;
+    btn3.style["background-color"] = backColor;
+
+    btn4.style.color = btnColor;
+    btn4.style["background-color"] = backColor;
+
+    paintColor = "rgb(245, 244, 244)";
+})
+
+btn3.addEventListener("click", () => {
+    makeGrid(gridSize);
+})
+
+btn4.addEventListener("click", () => {
+    btn4.style.color = backColor;
+    btn4.style["background-color"] = btnColor;
+
+    btn2.style.color = btnColor;
+    btn2.style["background-color"] = backColor;
+
+    btn3.style.color = btnColor;
+    btn3.style["background-color"] = backColor;
+
+    btn1.style.color = btnColor;
+    btn1.style["background-color"] = backColor;
+})
+

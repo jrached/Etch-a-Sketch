@@ -1,5 +1,7 @@
-/* I think if you give the two panels a minimum width it will wrap fine. */
-
+@font-face {
+    font-family: "Lofty";
+    src: url("./fonts/loftygoals.otf") format("opentype");
+}
 html {
     scroll-behavior: smooth;
 }
@@ -15,10 +17,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 100px;
+    font-size: 110px;
     font-weight: 900;
     background-color: rgb(217, 234, 241);
-    color: rgb(207, 143, 13);
+    color: rgb(153, 106, 11);
+    font-family: "Lofty"
 
 }
 
@@ -27,7 +30,6 @@ body {
 .content {
     display: flex;
     min-height: 600px;
-    /* border: 2px solid orange; */
 }
 
 /* Left */
@@ -49,11 +51,29 @@ body {
     align-items: center;
     color:rgb(136, 93, 9);
     font-size: 25px;
+    gap: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
-.sizeSelector{
-    color: rgb(207, 143, 13);
-    height: 20%;
+.sizeSelector {
+    -webkit-appearance: none;
+    background-color:rgb(217, 234, 241);
+}
+
+.sizeSelector::-webkit-slider-runnable-track{
+    height: 26px;
+    border: 1px solid rgb(136, 93, 9);
+    border-radius: 25px;
+    background: rgb(233, 241, 245);
+}
+
+.sizeSelector::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    width: 24px;
+    height: 24px;
+    border-radius: 25px;
+    background:rgb(136, 93, 9);
 }
 
 .options {
@@ -80,6 +100,18 @@ body {
     border-radius: 5px;
 }
 
+.option1 {
+    background-color:rgb(136, 93, 9);
+    color: rgb(217, 234, 241);
+}
+
+.option1:hover, .option2:hover, .option3:hover, .option4:hover {
+    transform: scale(1.04);
+    transition: 0.1s ease-in-out;
+    cursor: pointer;
+}
+
+
 /* Right */
 .container {
     display: flex;
@@ -104,7 +136,7 @@ body {
     padding-left: 25px;
     padding-right: 25px;
     border-radius: 10%;
-    background-color: rgb(255, 31, 31);
+    background-color: rgb(231, 28, 28);
 }
 
 .board {
@@ -141,17 +173,17 @@ body {
     height: 80px; 
     width: 80px;
     border-radius: 50%;
-    /* border: 2px solid orange; */
 }
 
 .box1 .text, .box2 .text {
-    color: rgb(221, 152, 15);
+    /* color: rgb(221, 152, 15); */
+    color: rgb(187, 139, 42);
     font-weight: 600;
-    font-size: 28px;
+    font-size: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* border: 2px solid orange; */
+    font-family: "Lofty";
 }
 
 
@@ -165,7 +197,6 @@ body {
     align-items: center;
     height: 70px;
     padding-bottom: 10px;
-    /* border: 2px solid orange; */
     background-color:rgb(217, 234, 241);
     color:rgb(136, 93, 9);
 }
@@ -179,7 +210,7 @@ the styles of the elements inside to the new specifications. */
 @media (max-width: 650px) {
 
     .header {
-        font-size: 60px;
+        font-size: 70px;
     }
 
     .content {
@@ -242,7 +273,7 @@ the styles of the elements inside to the new specifications. */
     }
 
     .box1 .text, .box2 .text {
-        font-size: 16px;
+        font-size: 22px;
     }
 
     .footer {
