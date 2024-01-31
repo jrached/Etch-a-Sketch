@@ -19,6 +19,8 @@ let modeBtn = document.querySelector(".box2 .btn");
 // /////////////////////////// Functions ////////////////////////////
 
 // ///////////////////////Helper Functions////////////////////////////
+
+// Convert hex values to rgb
 function hexToRgb(hex) {
     // Remove the hash (#) if it's present
     hex = hex.replace(/^#/, '');
@@ -82,13 +84,9 @@ const updateBoardSize = () => {
 
 // Display mode
 const displayMode = (state) => {
-    if (state % 3 == 0) {
-        modeDisplay.textContent = "Normal";
-    } else if (state % 3 == 1) {
-        modeDisplay.textContent = "Rainbow";
-    } else {
-        modeDisplay.textContent = "Grayscale";
-    }
+    if (state % 3 == 0) {modeDisplay.textContent = "Normal";} 
+    else if (state % 3 == 1) {modeDisplay.textContent = "Rainbow";} 
+    else {modeDisplay.textContent = "Grayscale";}
 }
 
 // //////////////////////////// Main Functions ///////////////////////
@@ -146,14 +144,14 @@ const makeGrid = (numBox, toggle) => {
             // Update current color and color array.
             box.addEventListener("mouseenter", () => {
                 let [i, j] = box.id.split(" ");
-                let currColor = getColor(paintColor, colors[i][j], stateCounter, erase);
+                let currColor = getColor(paintColor, colors[i][j], stateCounter, erase, false);
                 box.style["background-color"] = currColor;
                 colors[i][j] = currColor;
             })
 
             box.addEventListener("touchstart", () => {
                 let [i, j] = box.id.split(" ");
-                let currColor = getColor(paintColor, colors[i][j], stateCounter, erase);
+                let currColor = getColor(paintColor, colors[i][j], stateCounter, erase, true);
                 box.style["background-color"] = currColor;
                 colors[i][j] = currColor;
             })
@@ -166,7 +164,7 @@ const makeGrid = (numBox, toggle) => {
 
                 if (elementUnderTouch.id != '' && elementUnderTouch.id != null) {
                     let [i, j] = elementUnderTouch.id.split(" ");
-                    let currColor = getColor(paintColor, colors[i][j], stateCounter, erase);
+                    let currColor = getColor(paintColor, colors[i][j], stateCounter, erase, true);
                     elementUnderTouch.style["background-color"] = currColor;
                     colors[i][j] = currColor;
                     console.log("here");
@@ -189,19 +187,26 @@ const rainbowMode = () => {
 }
 
 // Grayscale mode
-const grayscaleMode = (color) => {
+const grayscaleMode = (color, slow) => {
+    let val = 0;
+    if (slow == true) {
+        val = 5;
+    } else {
+        val = 25;
+    }
+
     rgb = color.slice(4, -1);
     [r,g,b] = rgb.split(',');
 
-    r = Math.max(0, +r - 25);
-    g = Math.max(0, +g - 25);
-    b = Math.max(0, +b - 25);
+    r = Math.max(0, +r - val);
+    g = Math.max(0, +g - val);
+    b = Math.max(0, +b - val);
 
     return "rgb(" + r + "," + g + "," + b +")";
 }
 
 // Color state machine
-const getColor = (color, boxColor, state, eraser) => {
+const getColor = (color, boxColor, state, eraser, slow) => {
 
     if (eraser == true) {
         return WHITE;
@@ -211,11 +216,10 @@ const getColor = (color, boxColor, state, eraser) => {
         } else if (state % 3 == 1) {
             return rainbowMode();
         } else {
-            return grayscaleMode(boxColor);
+            return grayscaleMode(boxColor, slow);
         }
     }
 }
-
 
 // ////////////////////////// Event Listeners /////////////////////////////////
 
