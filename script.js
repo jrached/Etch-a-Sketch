@@ -191,7 +191,7 @@ const grayscaleMode = (color) => {
 const getColor = (color, boxColor, state, eraser) => {
 
     if (eraser == true) {
-        return WHITE
+        return WHITE;
     } else {
         if (state % 3 == 0) {
             return color;
