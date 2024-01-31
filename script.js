@@ -1,11 +1,13 @@
 let gridSize = 16;
+let colors = [];
+let toggleGrid = true;
 let gridColor = "rgb(245, 244, 244)";
-let paintColor = "rgb(60, 60, 60)";
+let paintColor = "rgb(61, 61, 61)";
 let backColor = "rgb(233, 241, 245)";
 let btnColor = "rgb(136, 93, 9)";
 let slider = document.querySelector(".sizeSelector");
-let colors = [];
-let toggleGrid = true;
+let swatch = document.querySelector(".swatch");
+let colorDisplay = document.querySelector(".box1 .text");
 
 // /////////////////////////// Functions ////////////////////////////
 
@@ -67,14 +69,10 @@ const makeGrid = (numBox, toggle) => {
             })
 
             row.appendChild(box);
-
         }
-
         board.appendChild(row)
     }
-
 }
-
 
 // Update board size
 const updateBoardSize = () => {
@@ -94,6 +92,32 @@ const updateBoardSize = () => {
         frame.style.width = "90%";
         frame.style.height = "550px";
     }
+}
+
+// print color name
+const colorName = (colorHex) => {
+    if (colorHex == "#ffffff") {return "White";}
+    else if (colorHex == "#000000") {return "Black"}
+    else if (colorHex == "#3d3d3d") {return "Dark Gray"}
+    else if (colorHex == "#ff0000") {return "Red"}
+    else if (colorHex == "#00ffff") {return "Cyan"}
+    else if (colorHex == "#0000ff") {return "Blue"}
+    else if (colorHex == "#00008b") {return "Dark Blue"}
+    else if (colorHex == "#add8e6") {return "Light Blue"}
+    else if (colorHex == "#800080") {return "Purple"}
+    else if (colorHex == "#ffff00") {return "Yellow"}
+    else if (colorHex == "#00ff00") {return "Lime"}
+    else if (colorHex == "#ff00ff") {return "Magenta"}
+    else if (colorHex == "#ffc0cb") {return "Pink"}
+    else if (colorHex == "#c0c0c0") {return "Silver"}
+    else if (colorHex == "#808080") {return "Gray"}
+    else if (colorHex == "#ffa500") {return "Orange"}
+    else if (colorHex == "#a52a2a") {return "Brown"}
+    else if (colorHex == "#800000") {return "Maroon"}
+    else if (colorHex == "#008000") {return "Green"}
+    else if (colorHex == "#808000") {return "Olive"}
+    else if (colorHex == "#7fffd4") {return "Aquamarine"}
+    else {return colorHex};
 }
 
 
@@ -131,7 +155,7 @@ slider.addEventListener("input", function () {
     makeGrid(gridSize, toggleGrid);
 })
 
-// Buttons event listeners
+// Menu buttons listeners
 let btn1 = document.querySelector(".option1"),
     btn2 = document.querySelector(".option2"),
     btn3 = document.querySelector(".option3"),
@@ -165,5 +189,11 @@ btn3.addEventListener("click", () => {
 btn4.addEventListener("click", () => {
     toggleGrid = !toggleGrid;
     makeGrid(gridSize, toggleGrid);
+})
+
+// Color swatch listeners
+swatch.addEventListener("input", (e) => {
+    paintColor = e.target.value;
+    colorDisplay.textContent = colorName(e.target.value);
 })
 
