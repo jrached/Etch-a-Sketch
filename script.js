@@ -8,6 +8,7 @@ let stateCounter = 0;
 let gridColor = "rgb(245, 244, 244)";
 let paintColor = "rgb(61, 61, 61)";
 let backColor = "rgb(233, 241, 245)";
+let borderColor = "rgb(92, 92, 92)";
 let btnColor = "rgb(136, 93, 9)";
 let slider = document.querySelector(".sizeSelector");
 let swatch = document.querySelector(".swatch");
@@ -135,7 +136,7 @@ const makeGrid = (numBox, toggle) => {
             if (toggle == true) {
                 boxWidth = boxWidth- 2 * border;
                 boxHeight = boxHeight - 2 * border;
-                box.style.border = "" + border + "px solid rgb(92, 92, 92)";
+                box.style.border = "" + border + "px solid " + borderColor;
                 box.style["border-radius"] = "15%";
             }
             box.style.height = "" + boxWidth + "px";
@@ -150,11 +151,26 @@ const makeGrid = (numBox, toggle) => {
                 colors[i][j] = currColor;
             })
 
-            box.addEventListener("click", () => {
+            box.addEventListener("touchstart", () => {
                 let [i, j] = box.id.split(" ");
                 let currColor = getColor(paintColor, colors[i][j], stateCounter, erase);
                 box.style["background-color"] = currColor;
                 colors[i][j] = currColor;
+            })
+
+            box.addEventListener("touchmove", (e) => {
+                e.preventDefault();
+
+                const touch = e.touches[0];
+                const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
+
+                if (elementUnderTouch.id != '' && elementUnderTouch.id != null) {
+                    let [i, j] = elementUnderTouch.id.split(" ");
+                    let currColor = getColor(paintColor, colors[i][j], stateCounter, erase);
+                    elementUnderTouch.style["background-color"] = currColor;
+                    colors[i][j] = currColor;
+                    console.log("here");
+                }
             })
 
             row.appendChild(box);
@@ -176,13 +192,10 @@ const rainbowMode = () => {
 const grayscaleMode = (color) => {
     rgb = color.slice(4, -1);
     [r,g,b] = rgb.split(',');
-    console.log(rgb);
 
     r = Math.max(0, +r - 25);
     g = Math.max(0, +g - 25);
     b = Math.max(0, +b - 25);
-
-    console.log("rgb(" + r + "," + g + "," + b +")");
 
     return "rgb(" + r + "," + g + "," + b +")";
 }
