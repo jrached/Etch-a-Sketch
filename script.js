@@ -190,7 +190,7 @@ const rainbowMode = () => {
 const grayscaleMode = (color, slow) => {
     let val = 0;
     if (slow == true) {
-        val = 5;
+        val = 10;
     } else {
         val = 25;
     }
