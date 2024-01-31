@@ -150,6 +150,13 @@ const makeGrid = (numBox, toggle) => {
                 colors[i][j] = currColor;
             })
 
+            box.addEventListener("click", () => {
+                let [i, j] = box.id.split(" ");
+                let currColor = getColor(paintColor, colors[i][j], stateCounter, erase);
+                box.style["background-color"] = currColor;
+                colors[i][j] = currColor;
+            })
+
             row.appendChild(box);
         }
         board.appendChild(row)
