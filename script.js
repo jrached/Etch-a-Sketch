@@ -17,6 +17,81 @@ let modeBtn = document.querySelector(".box2 .btn");
 
 // /////////////////////////// Functions ////////////////////////////
 
+// ///////////////////////Helper Functions////////////////////////////
+function hexToRgb(hex) {
+    // Remove the hash (#) if it's present
+    hex = hex.replace(/^#/, '');
+
+    // Parse the hex values to separate R, G, and B components
+    const bigint = parseInt(hex, 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+
+    // Return the RGB values as an object
+    return "rgb(" + r + "," + g + "," + b +")";
+}
+
+
+// print color name
+const colorName = (colorHex) => {
+    if (colorHex == "#ffffff") {return "White";}
+    else if (colorHex == "#000000") {return "Black"}
+    else if (colorHex == "#3d3d3d") {return "Dark Gray"}
+    else if (colorHex == "#ff0000") {return "Red"}
+    else if (colorHex == "#00ffff") {return "Cyan"}
+    else if (colorHex == "#0000ff") {return "Blue"}
+    else if (colorHex == "#00008b") {return "Dark Blue"}
+    else if (colorHex == "#add8e6") {return "Light Blue"}
+    else if (colorHex == "#800080") {return "Purple"}
+    else if (colorHex == "#ffff00") {return "Yellow"}
+    else if (colorHex == "#00ff00") {return "Lime"}
+    else if (colorHex == "#ff00ff") {return "Magenta"}
+    else if (colorHex == "#ffc0cb") {return "Pink"}
+    else if (colorHex == "#c0c0c0") {return "Silver"}
+    else if (colorHex == "#808080") {return "Gray"}
+    else if (colorHex == "#ffa500") {return "Orange"}
+    else if (colorHex == "#a52a2a") {return "Brown"}
+    else if (colorHex == "#800000") {return "Maroon"}
+    else if (colorHex == "#008000") {return "Green"}
+    else if (colorHex == "#808000") {return "Olive"}
+    else if (colorHex == "#7fffd4") {return "Aquamarine"}
+    else {return colorHex};
+}
+
+// Update board size
+const updateBoardSize = () => {
+
+    let board = document.querySelector(".board");
+    let frame = document.querySelector(".frame");
+    let windowWidth = window.innerWidth;
+
+    if (windowWidth <= 650) {
+        board.style.width = "250px";
+        board.style.height = "250px";
+        frame.style.width = "300px";
+        frame.style.height = "300px";
+    } else {
+        board.style.width = "450px";
+        board.style.height = "450px";
+        frame.style.width = "90%";
+        frame.style.height = "550px";
+    }
+}
+
+// Display mode
+const displayMode = (state) => {
+    if (state % 3 == 0) {
+        modeDisplay.textContent = "Normal";
+    } else if (state % 3 == 1) {
+        modeDisplay.textContent = "Rainbow";
+    } else {
+        modeDisplay.textContent = "Grayscale";
+    }
+}
+
+// //////////////////////////// Main Functions ///////////////////////
+
 // Make grid
 const makeGrid = (numBox, toggle) => {
 
@@ -70,7 +145,7 @@ const makeGrid = (numBox, toggle) => {
             // Update current color and color array.
             box.addEventListener("mouseenter", () => {
                 let [i, j] = box.id.split(" ");
-                let currColor = getColor(paintColor, stateCounter, erase);
+                let currColor = getColor(paintColor, colors[i][j], stateCounter, erase);
                 box.style["background-color"] = currColor;
                 colors[i][j] = currColor;
             })
@@ -78,26 +153,6 @@ const makeGrid = (numBox, toggle) => {
             row.appendChild(box);
         }
         board.appendChild(row)
-    }
-}
-
-// Update board size
-const updateBoardSize = () => {
-
-    let board = document.querySelector(".board");
-    let frame = document.querySelector(".frame");
-    let windowWidth = window.innerWidth;
-
-    if (windowWidth <= 650) {
-        board.style.width = "250px";
-        board.style.height = "250px";
-        frame.style.width = "300px";
-        frame.style.height = "300px";
-    } else {
-        board.style.width = "450px";
-        board.style.height = "450px";
-        frame.style.width = "90%";
-        frame.style.height = "550px";
     }
 }
 
@@ -110,8 +165,23 @@ const rainbowMode = () => {
     return "rgb(" + r + "," + g + "," + b +")";
 }
 
+// Grayscale mode
+const grayscaleMode = (color) => {
+    rgb = color.slice(4, -1);
+    [r,g,b] = rgb.split(',');
+    console.log(rgb);
+
+    r = Math.max(0, +r - 25);
+    g = Math.max(0, +g - 25);
+    b = Math.max(0, +b - 25);
+
+    console.log("rgb(" + r + "," + g + "," + b +")");
+
+    return "rgb(" + r + "," + g + "," + b +")";
+}
+
 // Color state machine
-const getColor = (color, state, eraser) => {
+const getColor = (color, boxColor, state, eraser) => {
 
     if (eraser == true) {
         return WHITE
@@ -121,45 +191,9 @@ const getColor = (color, state, eraser) => {
         } else if (state % 3 == 1) {
             return rainbowMode();
         } else {
-            return color;
+            return grayscaleMode(boxColor);
         }
     }
-}
-
-const displayMode = (state) => {
-    if (state % 3 == 0) {
-        modeDisplay.textContent = "Normal";
-    } else if (state % 3 == 1) {
-        modeDisplay.textContent = "Rainbow";
-    } else {
-        modeDisplay.textContent = "Grayscale";
-    }
-}
-
-// print color name
-const colorName = (colorHex) => {
-    if (colorHex == "#ffffff") {return "White";}
-    else if (colorHex == "#000000") {return "Black"}
-    else if (colorHex == "#3d3d3d") {return "Dark Gray"}
-    else if (colorHex == "#ff0000") {return "Red"}
-    else if (colorHex == "#00ffff") {return "Cyan"}
-    else if (colorHex == "#0000ff") {return "Blue"}
-    else if (colorHex == "#00008b") {return "Dark Blue"}
-    else if (colorHex == "#add8e6") {return "Light Blue"}
-    else if (colorHex == "#800080") {return "Purple"}
-    else if (colorHex == "#ffff00") {return "Yellow"}
-    else if (colorHex == "#00ff00") {return "Lime"}
-    else if (colorHex == "#ff00ff") {return "Magenta"}
-    else if (colorHex == "#ffc0cb") {return "Pink"}
-    else if (colorHex == "#c0c0c0") {return "Silver"}
-    else if (colorHex == "#808080") {return "Gray"}
-    else if (colorHex == "#ffa500") {return "Orange"}
-    else if (colorHex == "#a52a2a") {return "Brown"}
-    else if (colorHex == "#800000") {return "Maroon"}
-    else if (colorHex == "#008000") {return "Green"}
-    else if (colorHex == "#808000") {return "Olive"}
-    else if (colorHex == "#7fffd4") {return "Aquamarine"}
-    else {return colorHex};
 }
 
 
@@ -235,7 +269,7 @@ btn4.addEventListener("click", () => {
 
 // Color swatch listeners
 swatch.addEventListener("input", (e) => {
-    paintColor = e.target.value;
+    paintColor = hexToRgb(e.target.value);
     colorDisplay.textContent = colorName(e.target.value);
 })
 
