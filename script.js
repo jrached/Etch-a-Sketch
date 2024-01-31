@@ -1,6 +1,10 @@
+const GRAY = "rgb(61, 61, 61)";
+const WHITE = "rgb(245, 244, 244)";
 let gridSize = 16;
 let colors = [];
 let toggleGrid = true;
+let erase = false;
+let stateCounter = 0;
 let gridColor = "rgb(245, 244, 244)";
 let paintColor = "rgb(61, 61, 61)";
 let backColor = "rgb(233, 241, 245)";
@@ -8,6 +12,8 @@ let btnColor = "rgb(136, 93, 9)";
 let slider = document.querySelector(".sizeSelector");
 let swatch = document.querySelector(".swatch");
 let colorDisplay = document.querySelector(".box1 .text");
+let modeDisplay = document.querySelector(".box2 .text");
+let modeBtn = document.querySelector(".box2 .btn");
 
 // /////////////////////////// Functions ////////////////////////////
 
@@ -64,8 +70,9 @@ const makeGrid = (numBox, toggle) => {
             // Update current color and color array.
             box.addEventListener("mouseenter", () => {
                 let [i, j] = box.id.split(" ");
-                box.style["background-color"] = paintColor;
-                colors[i][j] = paintColor;
+                let currColor = getColor(paintColor, stateCounter, erase);
+                box.style["background-color"] = currColor;
+                colors[i][j] = currColor;
             })
 
             row.appendChild(box);
@@ -91,6 +98,41 @@ const updateBoardSize = () => {
         board.style.height = "450px";
         frame.style.width = "90%";
         frame.style.height = "550px";
+    }
+}
+
+//  Rainbow mode
+const rainbowMode = () => {
+    r = Math.floor(256*Math.random());
+    g = Math.floor(256*Math.random());
+    b = Math.floor(256*Math.random());
+
+    return "rgb(" + r + "," + g + "," + b +")";
+}
+
+// Color state machine
+const getColor = (color, state, eraser) => {
+
+    if (eraser == true) {
+        return WHITE
+    } else {
+        if (state % 3 == 0) {
+            return color;
+        } else if (state % 3 == 1) {
+            return rainbowMode();
+        } else {
+            return color;
+        }
+    }
+}
+
+const displayMode = (state) => {
+    if (state % 3 == 0) {
+        modeDisplay.textContent = "Normal";
+    } else if (state % 3 == 1) {
+        modeDisplay.textContent = "Rainbow";
+    } else {
+        modeDisplay.textContent = "Grayscale";
     }
 }
 
@@ -168,7 +210,7 @@ btn1.addEventListener("click", () => {
     btn2.style.color = btnColor;
     btn2.style["background-color"] = backColor;
 
-    paintColor = "rgb(60, 60, 60)";
+    erase = false;
 })
 
 btn2.addEventListener("click", () => {
@@ -178,7 +220,7 @@ btn2.addEventListener("click", () => {
     btn1.style.color = btnColor;
     btn1.style["background-color"] = backColor;
 
-    paintColor = "rgb(245, 244, 244)";
+    erase = true;
 })
 
 btn3.addEventListener("click", () => {
@@ -197,3 +239,8 @@ swatch.addEventListener("input", (e) => {
     colorDisplay.textContent = colorName(e.target.value);
 })
 
+// Add mode button listener
+modeBtn.addEventListener("click", () => {
+    stateCounter += 1;
+    displayMode(stateCounter);
+})
