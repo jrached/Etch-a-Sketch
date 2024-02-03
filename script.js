@@ -15,6 +15,12 @@ let swatch = document.querySelector(".swatch");
 let colorDisplay = document.querySelector(".box1 .text");
 let modeDisplay = document.querySelector(".box2 .text");
 let modeBtn = document.querySelector(".box2 .btn");
+let factor = 2;
+
+const usrAgent = navigator.userAgent.toLowerCase();
+if (usrAgent.includes('win')) {
+    factor = 1.6;
+}
 
 // /////////////////////////// Functions ////////////////////////////
 
@@ -132,8 +138,8 @@ const makeGrid = (numBox, toggle) => {
 
             box.id = "" + i + " " + j;
             if (toggle == true) {
-                boxWidth = boxWidth- 2 * border;
-                boxHeight = boxHeight - 2 * border;
+                boxWidth = boxWidth- factor * border;
+                boxHeight = boxHeight - factor * border;
                 box.style.border = "" + border + "px solid " + borderColor;
                 box.style["border-radius"] = "15%";
             }
